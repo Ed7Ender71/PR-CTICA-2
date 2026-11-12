@@ -12,6 +12,7 @@
 # EJECUTAR ESTO SI QUIERO EJECUTAR SCRIPTS MANUALMENTE DESDE UNA TERMINAL WSL NUEVA
 # source ~/tensorflow/bin/activate
 # (No es necesario que esté ubicado en ningún directorio para ejecutar eso)
+# ah bueno y el tensorflow debe de ser el interprete de mi entorno virtual: comprobar que siempre está en la esquina inferior derecha
 
 
 import logging
@@ -43,8 +44,8 @@ print(y_test.shape, y_test.dtype)
 # (CREO QUE LAS OBSERVACIONES SON CADA IMAGEN)
 
 
-# PARA MOSTRAR AL PERRO, con imshow
-def mostrar_perro(imagen, titulo):
+# show_image: Esta es la funcion que sale en el doc, que explica que con imshow de plt se pueden mostrar imagenes
+def show_image(imagen, titulo):
     plt.figure()
     plt.suptitle(titulo)
     plt.imshow(imagen, cmap= "Greys")
@@ -55,7 +56,32 @@ from random import sample # supongo que hay que cambiar esta parte en vez de ran
 for i in sample(list(range(len(x_train))), 3):
     titulo = "Mostrando imagen x_train[" + str(i) + "]"
     titulo = titulo + "-- y_train[" + str(i) + "] = " + str (y_train[i])
-    mostrar_perro(x_train[i], titulo)
+    show_image(x_train[i], titulo)
+
+from random import sample # supongo que hay que cambiar esta parte en vez de random será dog
+
+for i in sample(list(range(len(x_train))), 3):
+    titulo = "Mostrando imagen x_train[" + str(i) + "]"
+    titulo = titulo + "-- y_train[" + str(i) + "] = " + str (y_train[i])
+    show_image(x_train[i], titulo)
+
+
+
+# PARA MOSTRAR AL PERRO, con imshow
+def mostrar_perro(x_train, y_train):
+    indices_perros = np.where(y_train == 5)[0]  # np.where entiendo que es de asignación
+
+    # indice1 es el primer indice encontrado
+    indice1 = indices_perros[0]
+
+    # extraemos la imagen
+    imagen_perro = x_train[indice1]
+
+    # esto genera la visualizacion
+    plt.figure()
+    plt.suptitle("Mostrando perro")
+    plt.imshow(imagen_perro)
+    plt.show()
 
 
 
@@ -403,6 +429,9 @@ def ejercicio2(x_train, y_train, x_test, y_test):
 
 
 
+
+# ESTA ES LA FUNCIÓN PARA EJECUTAR, aqui se añaden las llamadas a las funciones
+
 if __name__ == "__main__":
 
     (x_train, y_train), (x_test, y_test) = load_cifar10()
@@ -414,3 +443,6 @@ if __name__ == "__main__":
     # y los modelos que prueba son ilustrativos de los que se pueden explorar
     #ejercicio2(x_train, y_train, x_test, y_test)
 
+
+    # Para mostrar al perro
+    mostrar_perro(x_train, y_train)
