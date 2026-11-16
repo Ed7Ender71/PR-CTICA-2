@@ -202,11 +202,11 @@ def load_cifar10():
 
     return (x_train, y_train), (x_test, y_test)
 
-
+# la paciencia y el epoch son los parametros que hay que tocar
 def defntest_model(x_train, y_train, x_test, y_test, batch_size=128, verbose=True,
                    layers=[("Flaten",), ("Dense", 128), ("sigmoid", ), ("Dense", 64, ), ("sigmoid", ), ],
                    scaling=[0, 1], kernel_initializer="glorot_uniform",
-                   epochs=50, learning_rate=0.001, patience=0, repetitions=1,
+                   epochs=100, learning_rate=0.001, patience=3, repetitions=1,
                    model_file_name=None, fig_file_name=None, show_fig=True, label=None):
     '''
     El parámetro layers es una lista con una tupla para cada capa
@@ -355,8 +355,8 @@ def train_many_and_plot(x_train, y_train, x_test, y_test, configs, repetitions=1
 #
 
 def ejercicio1(x_train, y_train, x_test, y_test):
-
-    defntest_model(x_train, y_train, x_test, y_test, epochs=100,
+    # epoch es el valor que por defecto en la plantilla esta a 100 y hay que cambiar segun lo que aparece en la grafica
+    defntest_model(x_train, y_train, x_test, y_test, epochs=40,
                    layers=[("Flaten",), ("Dense", 128), ("sigmoid", ), ("Dense", 64, ), ("sigmoid", ), ],
                    fig_file_name="128+64_Sigm_EP100.pdf")
 
@@ -437,6 +437,7 @@ if __name__ == "__main__":
     (x_train, y_train), (x_test, y_test) = load_cifar10()
 
     ejercicio1(x_train, y_train, x_test, y_test)
+
     # El primer ejercicio experimenta con un solo modelo de características fijas
     # por lo que la parte de experimentación está completa con el código de ejercicio1()
     # Sin embargo, ejercicio2() es solo una sugerencia de lo que se puede probar
@@ -444,5 +445,5 @@ if __name__ == "__main__":
     #ejercicio2(x_train, y_train, x_test, y_test)
 
 
-    # Para mostrar al perro
-    mostrar_perro(x_train, y_train)
+    # Llamada a la funcion que mostraba al perro. no se porque no muestra al puto perro
+    # mostrar_perro(x_train, y_train)
