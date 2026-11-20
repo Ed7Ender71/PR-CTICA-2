@@ -44,7 +44,7 @@ print(y_test.shape, y_test.dtype)
 # (CREO QUE LAS OBSERVACIONES SON CADA IMAGEN)
 
 
-# show_image: Esta es la funcion que sale en el doc, que explica que con imshow de plt se pueden mostrar imagenes
+#show_image: Esta es la funcion que sale en el doc, que explica que con imshow de plt se pueden mostrar imagenes
 def show_image(imagen, titulo):
     plt.figure()
     plt.suptitle(titulo)
@@ -369,6 +369,15 @@ def ejercicio2(x_train, y_train, x_test, y_test):
             "scaling": [0, 1],
             "kernel_initializer": "glorot_uniform",
             "batch_size": 16,
+            "learning_rate": 0.05,
+            "label": "BS 16",
+            "fig_file_name": "2x128_Sigm_BS16.pdf",
+        },
+        {
+            "layers": [("Flaten", ), ("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", )],
+            "scaling": [0, 1],
+            "kernel_initializer": "glorot_uniform",
+            "batch_size": 32,
             "learning_rate": 0.001,
             "label": "BS 16",
             "fig_file_name": "2x128_Sigm_BS16.pdf",
@@ -378,6 +387,24 @@ def ejercicio2(x_train, y_train, x_test, y_test):
             "scaling": [0, 1],
             "kernel_initializer": "glorot_uniform",
             "batch_size": 128,
+            "learning_rate": 0.001,
+            "label": "BS 128",
+            "fig_file_name": "2x128_Sigm_BS128.pdf",
+        },
+        {
+            "layers": [("Flaten", ), ("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", )],
+            "scaling": [0, 1],
+            "kernel_initializer": "glorot_uniform",
+            "batch_size": 256,
+            "learning_rate": 0.001,
+            "label": "BS 128",
+            "fig_file_name": "2x128_Sigm_BS128.pdf",
+        },
+        {
+            "layers": [("Flaten", ), ("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", )],
+            "scaling": [0, 1],
+            "kernel_initializer": "glorot_uniform",
+            "batch_size": 512,
             "learning_rate": 0.001,
             "label": "BS 128",
             "fig_file_name": "2x128_Sigm_BS128.pdf",
@@ -410,7 +437,7 @@ def ejercicio2(x_train, y_train, x_test, y_test):
             "scaling": [0, 1],
             "kernel_initializer": "glorot_uniform",
             "batch_size": 256,
-            "learning_rate": 0.001,
+            "learning_rate": 0.002,
             "label": "LR 0.001",
             "fig_file_name": "2x128_Sigm_LR001.pdf",
         },
@@ -419,7 +446,164 @@ def ejercicio2(x_train, y_train, x_test, y_test):
             "scaling": [0, 1],
             "kernel_initializer": "glorot_uniform",
             "batch_size": 256,
-            "learning_rate": 0.00002,
+            "learning_rate": 0.0005,
+            "label": "LR 0.00002",
+            "fig_file_name": "2x128_Sigm_LR00002.pdf",
+        },
+        {
+            "layers": [("Flaten", ), ("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", )],
+            "scaling": [0, 1],
+            "kernel_initializer": "glorot_uniform",
+            "batch_size": 256,
+            "learning_rate": 0.00001,
+            "label": "LR 0.00002",
+            "fig_file_name": "2x128_Sigm_LR00002.pdf",
+        },
+    ]
+    train_many_and_plot(x_train, y_train, x_test, y_test, configs, title="2x128 Sigmoid, variando LR",
+                              save_file_name="comp_2x128_Sigm_LR.pdf")
+
+
+
+def ejercicio3(x_train, y_train, x_test, y_test):
+
+
+    # 2
+    configs = [
+        {
+            "layers": [("Flaten", ), ("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", )],
+            "scaling": [0, 1],
+            "kernel_initializer": "glorot_uniform",
+            "batch_size": 16,
+            "learning_rate": 0.001,
+            "label": "BS 16",
+            "fig_file_name": "2x128_Sigm_BS16.pdf",
+        },
+        {
+            "layers": [("Flaten", ), ("Dense", 128), ("relu", ), ("Dense", 128), ("relu", )],
+            "scaling": [0, 1],
+            "kernel_initializer": "glorot_uniform",
+            "batch_size": 32,
+            "learning_rate": 0.001,
+            "label": "BS 16",
+            "fig_file_name": "2x128_Sigm_BS16.pdf",
+        },
+        {
+            "layers": [("Flaten", ), ("Dense", 128), ("selu", ), ("Dense", 128), ("selu", )],
+            "scaling": [0, 1],
+            "kernel_initializer": "glorot_uniform",
+            "batch_size": 128,
+            "learning_rate": 0.001,
+            "label": "BS 128",
+            "fig_file_name": "2x128_Sigm_BS128.pdf",
+        },
+        {
+            "layers": [("Flaten", ), ("Dense", 128), ("mish", ), ("Dense", 128), ("swish", )],
+            "scaling": [0, 1],
+            "kernel_initializer": "glorot_uniform",
+            "batch_size": 256,
+            "learning_rate": 0.001,
+            "label": "BS 128",
+            "fig_file_name": "2x128_Sigm_BS128.pdf",
+        }
+    ]
+    train_many_and_plot(x_train, y_train, x_test, y_test, configs, title="2x128 Sigmoid, variando BS",
+                              save_file_name="comp_2x128_Sigm_BS.pdf")
+
+    # 4
+    configs = [
+        {
+            "layers": [("Flaten", ),("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", ), 
+                                    ("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", )],
+            "scaling": [0, 1],
+            "kernel_initializer": "glorot_uniform",
+            "batch_size": 256,
+            "learning_rate": 0.05,
+            "label": "LR 0.05",
+            "fig_file_name": "2x128_Sigm_LR05.pdf",
+        },
+        {
+            "layers": [("Flaten", ),("Dense", 128), ("relu", ), ("Dense", 128), ("relu", ),
+                                    ("Dense", 128), ("relu", ), ("Dense", 128), ("relu", )],
+            "scaling": [0, 1],
+            "kernel_initializer": "glorot_uniform",
+            "batch_size": 256,
+            "learning_rate": 0.002,
+            "label": "LR 0.001",
+            "fig_file_name": "2x128_Sigm_LR001.pdf",
+        },
+        {
+            "layers": [("Flaten", ),("Dense", 128), ("selu", ), ("Dense", 128), ("selu", ), 
+                                    ("Dense", 128), ("selu", ), ("Dense", 128), ("selu", )],
+            "scaling": [0, 1],
+            "kernel_initializer": "glorot_uniform",
+            "batch_size": 256,
+            "learning_rate": 0.0005,
+            "label": "LR 0.00002",
+            "fig_file_name": "2x128_Sigm_LR00002.pdf",
+        },
+        {
+            "layers": [("Flaten", ), ("Dense", 128), ("mish", ), ("Dense", 128), ("mish", ),
+                                     ("Dense", 128), ("mish", ), ("Dense", 128), ("mish", )],
+            "scaling": [0, 1],
+            "kernel_initializer": "glorot_uniform",
+            "batch_size": 256,
+            "learning_rate": 0.00001,
+            "label": "LR 0.00002",
+            "fig_file_name": "2x128_Sigm_LR00002.pdf",
+        },
+    ]
+    train_many_and_plot(x_train, y_train, x_test, y_test, configs, title="2x128 Sigmoid, variando LR",
+                              save_file_name="comp_2x128_Sigm_LR.pdf")
+
+
+    # 8
+    configs = [
+        {
+            "layers": [("Flaten", ),("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", ),
+                                    ("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", )
+                                    ("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", )
+                                    ("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", )],
+            "scaling": [0, 1],
+            "kernel_initializer": "glorot_uniform",
+            "batch_size": 256,
+            "learning_rate": 0.05,
+            "label": "LR 0.05",
+            "fig_file_name": "2x128_Sigm_LR05.pdf",
+        },
+        {
+            "layers": [("Flaten", ),("Dense", 128), ("relu", ), ("Dense", 128), ("relu", ),
+                                    ("Dense", 128), ("relu", ), ("Dense", 128), ("relu", )
+                                    ("Dense", 128), ("relu", ), ("Dense", 128), ("relu", )
+                                    ("Dense", 128), ("relu", ), ("Dense", 128), ("relu", )],
+            "scaling": [0, 1],
+            "kernel_initializer": "glorot_uniform",
+            "batch_size": 256,
+            "learning_rate": 0.002,
+            "label": "LR 0.001",
+            "fig_file_name": "2x128_Sigm_LR001.pdf",
+        },
+        {
+            "layers": [("Flaten", ),("Dense", 128), ("selu", ), ("Dense", 128), ("selu", ),
+                                    ("Dense", 128), ("selu", ), ("Dense", 128), ("selu", )
+                                    ("Dense", 128), ("selu", ), ("Dense", 128), ("selu", )
+                                    ("Dense", 128), ("selu", ), ("Dense", 128), ("selu", )],
+            "scaling": [0, 1],
+            "kernel_initializer": "glorot_uniform",
+            "batch_size": 256,
+            "learning_rate": 0.0005,
+            "label": "LR 0.00002",
+            "fig_file_name": "2x128_Sigm_LR00002.pdf",
+        },
+        {
+            "layers": [("Flaten", ),("Dense", 128), ("mish", ), ("Dense", 128), ("mish", ),
+                                    ("Dense", 128), ("mish", ), ("Dense", 128), ("mish", )
+                                    ("Dense", 128), ("mish", ), ("Dense", 128), ("mish", )
+                                    ("Dense", 128), ("mish", ), ("Dense", 128), ("mish", )],
+            "scaling": [0, 1],
+            "kernel_initializer": "glorot_uniform",
+            "batch_size": 256,
+            "learning_rate": 0.00001,
             "label": "LR 0.00002",
             "fig_file_name": "2x128_Sigm_LR00002.pdf",
         },
@@ -436,14 +620,8 @@ if __name__ == "__main__":
 
     (x_train, y_train), (x_test, y_test) = load_cifar10()
 
-    ejercicio1(x_train, y_train, x_test, y_test)
+    #ejercicio1(x_train, y_train, x_test, y_test)
 
-    # El primer ejercicio experimenta con un solo modelo de características fijas
-    # por lo que la parte de experimentación está completa con el código de ejercicio1()
-    # Sin embargo, ejercicio2() es solo una sugerencia de lo que se puede probar
-    # y los modelos que prueba son ilustrativos de los que se pueden explorar
-    #ejercicio2(x_train, y_train, x_test, y_test)
+    #ejercicio2(x_train,y_train,x_test,y_test)
 
-
-    # Llamada a la funcion que mostraba al perro. no se porque no muestra al puto perro
-    # mostrar_perro(x_train, y_train)
+    ejercicio3(x_train,y_train,x_test,y_test)
