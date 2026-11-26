@@ -14,7 +14,8 @@
 # (No es necesario que esté ubicado en ningún directorio para ejecutar eso)
 # ah bueno y el tensorflow debe de ser el interprete de mi entorno virtual: comprobar que siempre está en la esquina inferior derecha
 
-
+import tensorflow as tf
+print(tf.config.list_physical_devices('GPU'))
 import logging
 logging.disable(logging.WARNING)
 import os
@@ -53,35 +54,35 @@ def show_image(imagen, titulo):
 
 from random import sample # supongo que hay que cambiar esta parte en vez de random será dog
 
-for i in sample(list(range(len(x_train))), 3):
-    titulo = "Mostrando imagen x_train[" + str(i) + "]"
-    titulo = titulo + "-- y_train[" + str(i) + "] = " + str (y_train[i])
-    show_image(x_train[i], titulo)
+# for i in sample(list(range(len(x_train))), 3):
+#     titulo = "Mostrando imagen x_train[" + str(i) + "]"
+#     titulo = titulo + "-- y_train[" + str(i) + "] = " + str (y_train[i])
+#     show_image(x_train[i], titulo)
 
 from random import sample # supongo que hay que cambiar esta parte en vez de random será dog
 
-for i in sample(list(range(len(x_train))), 3):
-    titulo = "Mostrando imagen x_train[" + str(i) + "]"
-    titulo = titulo + "-- y_train[" + str(i) + "] = " + str (y_train[i])
-    show_image(x_train[i], titulo)
+# for i in sample(list(range(len(x_train))), 3):
+#     titulo = "Mostrando imagen x_train[" + str(i) + "]"
+#     titulo = titulo + "-- y_train[" + str(i) + "] = " + str (y_train[i])
+#     show_image(x_train[i], titulo)
 
 
 
 # PARA MOSTRAR AL PERRO, con imshow
-def mostrar_perro(x_train, y_train):
-    indices_perros = np.where(y_train == 5)[0]  # np.where entiendo que es de asignación
+# def mostrar_perro(x_train, y_train):
+#     indices_perros = np.where(y_train == 5)[0]  # np.where entiendo que es de asignación
 
-    # indice1 es el primer indice encontrado
-    indice1 = indices_perros[0]
+#     # indice1 es el primer indice encontrado
+#     indice1 = indices_perros[0]
 
-    # extraemos la imagen
-    imagen_perro = x_train[indice1]
+#     # extraemos la imagen
+#     imagen_perro = x_train[indice1]
 
-    # esto genera la visualizacion
-    plt.figure()
-    plt.suptitle("Mostrando perro")
-    plt.imshow(imagen_perro)
-    plt.show()
+#     # esto genera la visualizacion
+#     plt.figure()
+#     plt.suptitle("Mostrando perro")
+#     plt.imshow(imagen_perro)
+#     plt.show()
 
 
 
@@ -128,8 +129,8 @@ def plot_history(history, title=None, show=True, save_file_name=None):
     
     if save_file_name:
         plt.savefig(save_file_name)
-    if show:
-        plt.show(block=True)
+    # if show:
+    #     plt.show(block=True)
     plt.close()
 
 
@@ -175,8 +176,9 @@ def plot_grouped_bars(results, errors, xlabels, title, y1log=False, y2log=False,
     
     if save_file_name:
         plt.savefig(save_file_name)
-    if show:
-        plt.show(block=True) #utiliza block=False para que no se pare la ejecución
+#   if show:
+#       plt.show(block=True) #utiliza block=False para que no se pare la ejecución
+
         # Si deseas que se creen las imágenes y queden abiertas mientras sigue la ejecución,
         # tendrás que hacer return del plot a la función principal para que no "mueran" al salir
     plt.close()
@@ -206,7 +208,7 @@ def load_cifar10():
 def defntest_model(x_train, y_train, x_test, y_test, batch_size=128, verbose=True,
                    layers=[("Flaten",), ("Dense", 128), ("sigmoid", ), ("Dense", 64, ), ("sigmoid", ), ],
                    scaling=[0, 1], kernel_initializer="glorot_uniform",
-                   epochs=100, learning_rate=0.001, patience=3, repetitions=1,
+                   epochs=50, learning_rate=0.001, patience=1, repetitions=1,
                    model_file_name=None, fig_file_name=None, show_fig=True, label=None):
     '''
     El parámetro layers es una lista con una tupla para cada capa
@@ -356,7 +358,7 @@ def train_many_and_plot(x_train, y_train, x_test, y_test, configs, repetitions=1
 
 def ejercicio1(x_train, y_train, x_test, y_test):
     # epoch es el valor que por defecto en la plantilla esta a 100 y hay que cambiar segun lo que aparece en la grafica
-    defntest_model(x_train, y_train, x_test, y_test, epochs=40,
+    defntest_model(x_train, y_train, x_test, y_test, epochs=10,
                    layers=[("Flaten",), ("Dense", 128), ("sigmoid", ), ("Dense", 64, ), ("sigmoid", ), ],
                    fig_file_name="128+64_Sigm_EP100.pdf")
 
@@ -423,7 +425,7 @@ def ejercicio2(x_train, y_train, x_test, y_test):
     train_many_and_plot(
         x_train, y_train, x_test, y_test, 
         configs, 
-        repetitions=3,
+        repetitions=1,
         title="2x128 Sigmoid, variando BS",
         save_file_name="comp_2x128_Sigm_BS.pdf"
     )
@@ -470,7 +472,7 @@ def ejercicio2(x_train, y_train, x_test, y_test):
     train_many_and_plot(
         x_train, y_train, x_test, y_test, 
         configs,
-        repetitions=3,
+        repetitions=1,
         title="2x128 Sigmoid, variando LR",
         save_file_name="comp_2x128_Sigm_LR.pdf"
     )
@@ -479,150 +481,222 @@ def ejercicio2(x_train, y_train, x_test, y_test):
 
 def ejercicio3(x_train, y_train, x_test, y_test):
 
+    # MODELOS DE 2 CAPAS OCULTAS
 
-    # 2
     configs = [
         {
-            "layers": [("Flaten", ), ("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", )],
+            "layers": [("Flaten", ),
+                       ("Dense", 128), ("sigmoid", ),
+                       ("Dense", 128), ("sigmoid", )],
             "scaling": [0, 1],
-            "kernel_initializer": "glorot_uniform",
-            "batch_size": 16,
-            "learning_rate": 0.001,
-            "label": "BS 16",
-            "fig_file_name": "2x128_Sigm_BS16.pdf",
-        },
-        {
-            "layers": [("Flaten", ), ("Dense", 128), ("relu", ), ("Dense", 128), ("relu", )],
-            "scaling": [0, 1],
-            "kernel_initializer": "glorot_uniform",
-            "batch_size": 32,
-            "learning_rate": 0.001,
-            "label": "BS 16",
-            "fig_file_name": "2x128_Sigm_BS16.pdf",
-        },
-        {
-            "layers": [("Flaten", ), ("Dense", 128), ("selu", ), ("Dense", 128), ("selu", )],
-            "scaling": [0, 1],
-            "kernel_initializer": "glorot_uniform",
-            "batch_size": 128,
-            "learning_rate": 0.001,
-            "label": "BS 128",
-            "fig_file_name": "2x128_Sigm_BS128.pdf",
-        },
-        {
-            "layers": [("Flaten", ), ("Dense", 128), ("mish", ), ("Dense", 128), ("swish", )],
-            "scaling": [0, 1],
-            "kernel_initializer": "glorot_uniform",
+            "kernel_initializer": "glorot_normal",
             "batch_size": 256,
             "learning_rate": 0.001,
-            "label": "BS 128",
-            "fig_file_name": "2x128_Sigm_BS128.pdf",
-        }
+            "label": "Sigmoid",
+            "show_fig": False,
+            "fig_file_name": "2x128_Sigmoid.pdf",
+        },
+        {
+            "layers": [("Flaten", ),
+                       ("Dense", 128), ("relu", ),
+                       ("Dense", 128), ("relu", )],
+            "scaling": [-2, 2],
+            "kernel_initializer": "he_normal",
+            "batch_size": 256,
+            "learning_rate": 0.001,
+            "label": "ReLU",
+            "show_fig": False,
+            "fig_file_name": "2x128_ReLU.pdf",
+        },
+        {
+            "layers": [("Flaten", ),
+                       ("Dense", 128), ("selu", ),
+                       ("Dense", 128), ("selu", )],
+            "scaling": [-2, 2],
+            "kernel_initializer": "lecun_normal",
+            "batch_size": 256,
+            "learning_rate": 0.001,
+            "label": "SELU",
+            "show_fig": False,
+            "fig_file_name": "2x128_SELU.pdf",
+        },
+        {
+            "layers": [("Flaten", ),
+                       ("Dense", 128), ("mish", ),
+                       ("Dense", 128), ("mish", )],
+            "scaling": [-2, 2],
+            "kernel_initializer": "he_normal",
+            "batch_size": 256,
+            "learning_rate": 0.001,
+            "label": "Mish",
+            "show_fig": False,
+            "fig_file_name": "2x128_Mish.pdf",
+        },
     ]
-    train_many_and_plot(x_train, y_train, x_test, y_test, configs, title="2x128 Sigmoid, variando BS",
-                              save_file_name="comp_2x128_Sigm_BS.pdf")
 
-    # 4
+    train_many_and_plot(
+        x_train, y_train, x_test, y_test,
+        configs,
+        repetitions=3,
+        title="2x128 - Funciones de activacion",
+        save_file_name="comp_2x128.pdf"
+    )
+
+
+    # MODELOS DE 4 CAPAS OCULTAS
+
     configs = [
         {
-            "layers": [("Flaten", ),("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", ), 
-                                    ("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", )],
+            "layers": [("Flaten", ),
+                       ("Dense", 128), ("sigmoid", ),
+                       ("Dense", 128), ("sigmoid", ),
+                       ("Dense", 128), ("sigmoid", ),
+                       ("Dense", 128), ("sigmoid", )],
             "scaling": [0, 1],
-            "kernel_initializer": "glorot_uniform",
+            "kernel_initializer": "glorot_normal",
             "batch_size": 256,
-            "learning_rate": 0.05,
-            "label": "LR 0.05",
-            "fig_file_name": "2x128_Sigm_LR05.pdf",
+            "learning_rate": 0.001,
+            "label": "Sigmoid",
+            "show_fig": False,
+            "fig_file_name": "4x128_Sigmoid.pdf",
         },
         {
-            "layers": [("Flaten", ),("Dense", 128), ("relu", ), ("Dense", 128), ("relu", ),
-                                    ("Dense", 128), ("relu", ), ("Dense", 128), ("relu", )],
-            "scaling": [0, 1],
-            "kernel_initializer": "glorot_uniform",
+            "layers": [("Flaten", ),
+                       ("Dense", 128), ("relu", ),
+                       ("Dense", 128), ("relu", ),
+                       ("Dense", 128), ("relu", ),
+                       ("Dense", 128), ("relu", )],
+            "scaling": [-2, 2],
+            "kernel_initializer": "he_normal",
             "batch_size": 256,
-            "learning_rate": 0.002,
-            "label": "LR 0.001",
-            "fig_file_name": "2x128_Sigm_LR001.pdf",
+            "learning_rate": 0.001,
+            "label": "ReLU",
+            "show_fig": False,
+            "fig_file_name": "4x128_ReLU.pdf",
         },
         {
-            "layers": [("Flaten", ),("Dense", 128), ("selu", ), ("Dense", 128), ("selu", ), 
-                                    ("Dense", 128), ("selu", ), ("Dense", 128), ("selu", )],
-            "scaling": [0, 1],
-            "kernel_initializer": "glorot_uniform",
+            "layers": [("Flaten", ),
+                       ("Dense", 128), ("selu", ),
+                       ("Dense", 128), ("selu", ),
+                       ("Dense", 128), ("selu", ),
+                       ("Dense", 128), ("selu", )],
+            "scaling": [-2, 2],
+            "kernel_initializer": "lecun_normal",
             "batch_size": 256,
-            "learning_rate": 0.0005,
-            "label": "LR 0.00002",
-            "fig_file_name": "2x128_Sigm_LR00002.pdf",
+            "learning_rate": 0.001,
+            "label": "SELU",
+            "show_fig": False,
+            "fig_file_name": "4x128_SELU.pdf",
         },
         {
-            "layers": [("Flaten", ), ("Dense", 128), ("mish", ), ("Dense", 128), ("mish", ),
-                                     ("Dense", 128), ("mish", ), ("Dense", 128), ("mish", )],
-            "scaling": [0, 1],
-            "kernel_initializer": "glorot_uniform",
+            "layers": [("Flaten", ),
+                       ("Dense", 128), ("mish", ),
+                       ("Dense", 128), ("mish", ),
+                       ("Dense", 128), ("mish", ),
+                       ("Dense", 128), ("mish", )],
+            "scaling": [-2, 2],
+            "kernel_initializer": "he_normal",
             "batch_size": 256,
-            "learning_rate": 0.00001,
-            "label": "LR 0.00002",
-            "fig_file_name": "2x128_Sigm_LR00002.pdf",
+            "learning_rate": 0.001,
+            "label": "Mish",
+            "show_fig": False,
+            "fig_file_name": "4x128_Mish.pdf",
         },
     ]
-    train_many_and_plot(x_train, y_train, x_test, y_test, configs, title="2x128 Sigmoid, variando LR",
-                              save_file_name="comp_2x128_Sigm_LR.pdf")
+
+    train_many_and_plot(
+        x_train, y_train, x_test, y_test,
+        configs,
+        repetitions=3,
+        title="4x128 - Funciones de activacion",
+        save_file_name="comp_4x128.pdf"
+    )
 
 
-    # 8
+    # MODELOS DE 8 CAPAS OCULTAS
+
     configs = [
         {
-            "layers": [("Flaten", ),("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", ),
-                                    ("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", )
-                                    ("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", )
-                                    ("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", )],
+            "layers": [("Flaten", ),
+                       ("Dense", 128), ("sigmoid", ),
+                       ("Dense", 128), ("sigmoid", ),
+                       ("Dense", 128), ("sigmoid", ),
+                       ("Dense", 128), ("sigmoid", ),
+                       ("Dense", 128), ("sigmoid", ),
+                       ("Dense", 128), ("sigmoid", ),
+                       ("Dense", 128), ("sigmoid", ),
+                       ("Dense", 128), ("sigmoid", )],
             "scaling": [0, 1],
-            "kernel_initializer": "glorot_uniform",
+            "kernel_initializer": "glorot_normal",
             "batch_size": 256,
-            "learning_rate": 0.05,
-            "label": "LR 0.05",
-            "fig_file_name": "2x128_Sigm_LR05.pdf",
+            "learning_rate": 0.001,
+            "label": "Sigmoid",
+            "show_fig": False,
+            "fig_file_name": "8x128_Sigmoid.pdf",
         },
         {
-            "layers": [("Flaten", ),("Dense", 128), ("relu", ), ("Dense", 128), ("relu", ),
-                                    ("Dense", 128), ("relu", ), ("Dense", 128), ("relu", )
-                                    ("Dense", 128), ("relu", ), ("Dense", 128), ("relu", )
-                                    ("Dense", 128), ("relu", ), ("Dense", 128), ("relu", )],
-            "scaling": [0, 1],
-            "kernel_initializer": "glorot_uniform",
+            "layers": [("Flaten", ),
+                       ("Dense", 128), ("relu", ),
+                       ("Dense", 128), ("relu", ),
+                       ("Dense", 128), ("relu", ),
+                       ("Dense", 128), ("relu", ),
+                       ("Dense", 128), ("relu", ),
+                       ("Dense", 128), ("relu", ),
+                       ("Dense", 128), ("relu", ),
+                       ("Dense", 128), ("relu", )],
+            "scaling": [-2, 2],
+            "kernel_initializer": "he_normal",
             "batch_size": 256,
-            "learning_rate": 0.002,
-            "label": "LR 0.001",
-            "fig_file_name": "2x128_Sigm_LR001.pdf",
+            "learning_rate": 0.001,
+            "label": "ReLU",
+            "show_fig": False,
+            "fig_file_name": "8x128_ReLU.pdf",
         },
         {
-            "layers": [("Flaten", ),("Dense", 128), ("selu", ), ("Dense", 128), ("selu", ),
-                                    ("Dense", 128), ("selu", ), ("Dense", 128), ("selu", )
-                                    ("Dense", 128), ("selu", ), ("Dense", 128), ("selu", )
-                                    ("Dense", 128), ("selu", ), ("Dense", 128), ("selu", )],
-            "scaling": [0, 1],
-            "kernel_initializer": "glorot_uniform",
+            "layers": [("Flaten", ),
+                       ("Dense", 128), ("selu", ),
+                       ("Dense", 128), ("selu", ),
+                       ("Dense", 128), ("selu", ),
+                       ("Dense", 128), ("selu", ),
+                       ("Dense", 128), ("selu", ),
+                       ("Dense", 128), ("selu", ),
+                       ("Dense", 128), ("selu", ),
+                       ("Dense", 128), ("selu", )],
+            "scaling": [-2, 2],
+            "kernel_initializer": "lecun_normal",
             "batch_size": 256,
-            "learning_rate": 0.0005,
-            "label": "LR 0.00002",
-            "fig_file_name": "2x128_Sigm_LR00002.pdf",
+            "learning_rate": 0.001,
+            "label": "SELU",
+            "show_fig": False,
+            "fig_file_name": "8x128_SELU.pdf",
         },
         {
-            "layers": [("Flaten", ),("Dense", 128), ("mish", ), ("Dense", 128), ("mish", ),
-                                    ("Dense", 128), ("mish", ), ("Dense", 128), ("mish", )
-                                    ("Dense", 128), ("mish", ), ("Dense", 128), ("mish", )
-                                    ("Dense", 128), ("mish", ), ("Dense", 128), ("mish", )],
-            "scaling": [0, 1],
-            "kernel_initializer": "glorot_uniform",
+            "layers": [("Flaten", ),
+                       ("Dense", 128), ("mish", ),
+                       ("Dense", 128), ("mish", ),
+                       ("Dense", 128), ("mish", ),
+                       ("Dense", 128), ("mish", ),
+                       ("Dense", 128), ("mish", ),
+                       ("Dense", 128), ("mish", ),
+                       ("Dense", 128), ("mish", ),
+                       ("Dense", 128), ("mish", )],
+            "scaling": [-2, 2],
+            "kernel_initializer": "he_normal",
             "batch_size": 256,
-            "learning_rate": 0.00001,
-            "label": "LR 0.00002",
-            "fig_file_name": "2x128_Sigm_LR00002.pdf",
+            "learning_rate": 0.001,
+            "label": "Mish",
+            "show_fig": False,
+            "fig_file_name": "8x128_Mish.pdf",
         },
     ]
-    train_many_and_plot(x_train, y_train, x_test, y_test, configs, title="2x128 Sigmoid, variando LR",
-                              save_file_name="comp_2x128_Sigm_LR.pdf")
 
+    train_many_and_plot(
+        x_train, y_train, x_test, y_test,
+        configs,
+        repetitions=3,
+        title="8x128 - Funciones de activacion",
+        save_file_name="comp_8x128.pdf"
+    )
 
 # main
 if __name__ == "__main__":
@@ -633,4 +707,4 @@ if __name__ == "__main__":
 
     #ejercicio2(x_train,y_train,x_test,y_test)
 
-    #ejercicio3(x_train,y_train,x_test,y_test)
+    ejercicio3(x_train,y_train,x_test,y_test)
