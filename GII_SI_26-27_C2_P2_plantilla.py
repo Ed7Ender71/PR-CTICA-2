@@ -795,6 +795,90 @@ def ejercicio4(x_train, y_train, x_test, y_test):
     )
 
 
+def ejercicio5(x_train, y_train, x_test, y_test):
+
+    # MODELOS DE 4 CAPAS SIN BN Y CON DROPOUT (de 0.2 y 0.5 para probar, esto quita un 20% y 50%)
+
+    configs = [
+        {
+            "layers": [("Flaten", ),
+                       ("Dense", 128), ("relu", ), ("DO", 0.2),
+                       ("Dense", 128), ("relu", ), ("DO", 0.2),
+                       ("Dense", 128), ("relu", ), ("DO", 0.2),
+                       ("Dense", 128), ("relu", )],
+            "scaling": [-2, 2],
+            "kernel_initializer": "he_normal",
+            "batch_size": 256,
+            "learning_rate": 0.001,
+            "label": "DO 0.2",
+            "show_fig": False,
+            "fig_file_name": "4x128_ReLU_DO02.pdf",
+        },
+        {
+            "layers": [("Flaten", ),
+                       ("Dense", 128), ("relu", ), ("DO", 0.5),
+                       ("Dense", 128), ("relu", ), ("DO", 0.5),
+                       ("Dense", 128), ("relu", ), ("DO", 0.5),
+                       ("Dense", 128), ("relu", )],
+            "scaling": [-2, 2],
+            "kernel_initializer": "he_normal",
+            "batch_size": 256,
+            "learning_rate": 0.001,
+            "label": "DO 0.5",
+            "show_fig": False,
+            "fig_file_name": "4x128_ReLU_DO05.pdf",
+        },
+    ]
+    train_many_and_plot(
+        x_train, y_train, x_test, y_test,
+        configs,
+        repetitions=3,
+        title="4x128 ReLU -Dropout sin BN",
+        save_file_name="comp_SIN_BN.pdf"
+    )
+
+
+    # MODELOS DE 4 CAPAS CON BN Y DROPOUT
+    configs = [
+        {
+                    "layers": [("Flaten", ),
+                               ("Dense", 128), ("BN", ), ("relu", ), ("DO", 0.2),
+                               ("Dense", 128), ("BN", ), ("relu", ), ("DO", 0.2),
+                               ("Dense", 128), ("BN", ), ("relu", ), ("DO", 0.2),
+                               ("Dense", 128), ("relu", )],
+                    "scaling": [-2, 2],
+                    "kernel_initializer": "he_normal",
+                    "batch_size": 256,
+                    "learning_rate": 0.001,
+                    "label": "BN + DO 0.2",
+                    "show_fig": False,
+                    "fig_file_name": "4x128_ReLU_BN_DO02.pdf",
+        },
+        {
+                    "layers": [("Flaten", ),
+                               ("Dense", 128), ("BN", ), ("relu", ), ("DO", 0.5),
+                               ("Dense", 128), ("BN", ), ("relu", ), ("DO", 0.5),
+                               ("Dense", 128), ("BN", ), ("relu", ), ("DO", 0.5),
+                               ("Dense", 128), ("relu", )],
+                    "scaling": [-2, 2],
+                    "kernel_initializer": "he_normal",
+                    "batch_size": 256,
+                    "learning_rate": 0.001,
+                    "label": "BN + DO 0.5",
+                    "show_fig": False,
+                    "fig_file_name": "4x128_ReLU_BN_DO05.pdf",
+        },
+        
+    ]
+    train_many_and_plot(
+        x_train, y_train, x_test, y_test,
+        configs,
+        repetitions=3,
+        title="4x128 RELU - Dropout con BN",
+        save_file_name="comp_CON_BN.pdf"
+    )
+
+
 # main
 if __name__ == "__main__":
 
@@ -807,3 +891,5 @@ if __name__ == "__main__":
     #ejercicio3(x_train,y_train,x_test,y_test)
     
     #ejercicio4(x_train,y_train,x_test,y_test)
+
+    ejercicio5(x_train,y_train,x_test,y_test)
