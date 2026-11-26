@@ -478,7 +478,6 @@ def ejercicio2(x_train, y_train, x_test, y_test):
     )
 
 
-
 def ejercicio3(x_train, y_train, x_test, y_test):
 
     # MODELOS DE 2 CAPAS OCULTAS
@@ -698,6 +697,104 @@ def ejercicio3(x_train, y_train, x_test, y_test):
         save_file_name="comp_8x128.pdf"
     )
 
+
+
+    # para el ejercicio 4 como puedo elegir voy a usar estos modelos:
+    # - sigmoid
+    # - relu
+    # - sigmoid
+    # - relu
+
+
+def ejercicio4(x_train, y_train, x_test, y_test):
+
+    # MODELOS DE 4 CAPAS CON BATCH NORMALIZATION
+    configs = [
+            {
+                "layers": [("Flaten", ),
+                        ("Dense", 128), ("BN", ), ("sigmoid", ),
+                        ("Dense", 128), ("BN", ), ("sigmoid", ),
+                        ("Dense", 128), ("BN", ), ("sigmoid", ),
+                        ("Dense", 128), ("sigmoid", )],
+                "scaling": [0, 1],
+                "kernel_initializer": "glorot_normal",
+                "batch_size": 256,
+                "learning_rate": 0.001,
+                "label": "Sigmoid BN",
+                "show_fig": False,
+                "fig_file_name": "4x128_Sigmoid_BN.pdf",
+            },
+            {
+                "layers": [("Flaten", ),
+                        ("Dense", 128), ("BN", ), ("relu", ),
+                        ("Dense", 128), ("BN", ), ("relu", ),
+                        ("Dense", 128), ("BN", ), ("relu", ),
+                        ("Dense", 128), ("relu", )],
+                "scaling": [-2, 2],
+                "kernel_initializer": "he_normal",
+                "batch_size": 256,
+                "learning_rate": 0.001,
+                "label": "ReLU BN",
+                "show_fig": False,
+                "fig_file_name": "4x128_ReLU_BN.pdf",
+            },
+    ]
+    train_many_and_plot(
+        x_train, y_train, x_test, y_test,
+        configs,
+        repetitions=3,
+        title="4x128 - Batch Normalization",
+        save_file_name="comp_4x128_BN.pdf"
+    )
+
+    # MODELOS DE 8 CAPAS CON BATCH NORMALIZATION
+    configs = [
+        {
+                "layers": [("Flaten", ),
+                        ("Dense", 128), ("BN", ), ("sigmoid", ),
+                        ("Dense", 128), ("BN", ), ("sigmoid", ),
+                        ("Dense", 128), ("BN", ), ("sigmoid", ),
+                        ("Dense", 128), ("BN", ), ("sigmoid", ),
+                        ("Dense", 128), ("BN", ), ("sigmoid", ),
+                        ("Dense", 128), ("BN", ), ("sigmoid", ),
+                        ("Dense", 128), ("BN", ), ("sigmoid", ),
+                        ("Dense", 128), ("sigmoid", )],
+                "scaling": [0, 1],
+                "kernel_initializer": "glorot_normal",
+                "batch_size": 256,
+                "learning_rate": 0.001,
+                "label": "Sigmoid BN",
+                "show_fig": False,
+                "fig_file_name": "8x128_Sigmoid_BN.pdf",
+        },
+        {
+            "layers": [("Flaten", ),
+                    ("Dense", 128), ("BN", ), ("relu", ),
+                    ("Dense", 128), ("BN", ), ("relu", ),
+                    ("Dense", 128), ("BN", ), ("relu", ),
+                    ("Dense", 128), ("BN", ), ("relu", ),
+                    ("Dense", 128), ("BN", ), ("relu", ),
+                    ("Dense", 128), ("BN", ), ("relu", ),
+                    ("Dense", 128), ("BN", ), ("relu", ),
+                    ("Dense", 128), ("relu", )],
+            "scaling": [-2, 2],
+            "kernel_initializer": "he_normal",
+            "batch_size": 256,
+            "learning_rate": 0.001,
+            "label": "ReLU BN",
+            "show_fig": False,
+            "fig_file_name": "8x128_ReLU_BN.pdf",
+        },
+    ]
+    train_many_and_plot(
+        x_train, y_train, x_test, y_test,
+        configs,
+        repetitions=3,
+        title="8x128 - Batch Normalization",
+        save_file_name="comp_8x128_BN.pdf"
+    )
+
+
 # main
 if __name__ == "__main__":
 
@@ -707,4 +804,6 @@ if __name__ == "__main__":
 
     #ejercicio2(x_train,y_train,x_test,y_test)
 
-    ejercicio3(x_train,y_train,x_test,y_test)
+    #ejercicio3(x_train,y_train,x_test,y_test),
+    
+    ejercicio4
