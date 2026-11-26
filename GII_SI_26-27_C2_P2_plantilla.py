@@ -364,12 +364,13 @@ def ejercicio1(x_train, y_train, x_test, y_test):
 def ejercicio2(x_train, y_train, x_test, y_test):
 
     configs = [
+        # batch_size
         {
             "layers": [("Flaten", ), ("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", )],
             "scaling": [0, 1],
             "kernel_initializer": "glorot_uniform",
             "batch_size": 16,
-            "learning_rate": 0.05,
+            "learning_rate": 0.001,
             "label": "BS 16",
             "fig_file_name": "2x128_Sigm_BS16.pdf",
         },
@@ -379,8 +380,8 @@ def ejercicio2(x_train, y_train, x_test, y_test):
             "kernel_initializer": "glorot_uniform",
             "batch_size": 32,
             "learning_rate": 0.001,
-            "label": "BS 16",
-            "fig_file_name": "2x128_Sigm_BS16.pdf",
+            "label": "BS 32",
+            "fig_file_name": "2x128_Sigm_BS32.pdf",
         },
         {
             "layers": [("Flaten", ), ("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", )],
@@ -397,8 +398,8 @@ def ejercicio2(x_train, y_train, x_test, y_test):
             "kernel_initializer": "glorot_uniform",
             "batch_size": 256,
             "learning_rate": 0.001,
-            "label": "BS 128",
-            "fig_file_name": "2x128_Sigm_BS128.pdf",
+            "label": "BS 256",
+            "fig_file_name": "2x128_Sigm_BS256.pdf",
         },
         {
             "layers": [("Flaten", ), ("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", )],
@@ -406,8 +407,8 @@ def ejercicio2(x_train, y_train, x_test, y_test):
             "kernel_initializer": "glorot_uniform",
             "batch_size": 512,
             "learning_rate": 0.001,
-            "label": "BS 128",
-            "fig_file_name": "2x128_Sigm_BS128.pdf",
+            "label": "BS 512",
+            "fig_file_name": "2x128_Sigm_BS512.pdf",
         },
         {
             "layers": [("Flaten", ), ("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", )],
@@ -419,10 +420,16 @@ def ejercicio2(x_train, y_train, x_test, y_test):
             "fig_file_name": "2x128_Sigm_BS1024.pdf",
         },
     ]
-    train_many_and_plot(x_train, y_train, x_test, y_test, configs, title="2x128 Sigmoid, variando BS",
-                              save_file_name="comp_2x128_Sigm_BS.pdf")
+    train_many_and_plot(
+        x_train, y_train, x_test, y_test, 
+        configs, 
+        repetitions=3,
+        title="2x128 Sigmoid, variando BS",
+        save_file_name="comp_2x128_Sigm_BS.pdf"
+    )
 
     configs = [
+        # learning_rate
         {
             "layers": [("Flaten", ), ("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", )],
             "scaling": [0, 1],
@@ -437,7 +444,7 @@ def ejercicio2(x_train, y_train, x_test, y_test):
             "scaling": [0, 1],
             "kernel_initializer": "glorot_uniform",
             "batch_size": 256,
-            "learning_rate": 0.002,
+            "learning_rate": 0.001,
             "label": "LR 0.001",
             "fig_file_name": "2x128_Sigm_LR001.pdf",
         },
@@ -447,21 +454,26 @@ def ejercicio2(x_train, y_train, x_test, y_test):
             "kernel_initializer": "glorot_uniform",
             "batch_size": 256,
             "learning_rate": 0.0005,
-            "label": "LR 0.00002",
-            "fig_file_name": "2x128_Sigm_LR00002.pdf",
+            "label": "LR 0.0005",
+            "fig_file_name": "2x128_Sigm_LR0005.pdf",
         },
         {
             "layers": [("Flaten", ), ("Dense", 128), ("sigmoid", ), ("Dense", 128), ("sigmoid", )],
             "scaling": [0, 1],
             "kernel_initializer": "glorot_uniform",
             "batch_size": 256,
-            "learning_rate": 0.00001,
-            "label": "LR 0.00002",
-            "fig_file_name": "2x128_Sigm_LR00002.pdf",
+            "learning_rate": 0.0001,
+            "label": "LR 0.0001",
+            "fig_file_name": "2x128_Sigm_LR0001.pdf",
         },
     ]
-    train_many_and_plot(x_train, y_train, x_test, y_test, configs, title="2x128 Sigmoid, variando LR",
-                              save_file_name="comp_2x128_Sigm_LR.pdf")
+    train_many_and_plot(
+        x_train, y_train, x_test, y_test, 
+        configs,
+        repetitions=3,
+        title="2x128 Sigmoid, variando LR",
+        save_file_name="comp_2x128_Sigm_LR.pdf"
+    )
 
 
 
@@ -612,10 +624,7 @@ def ejercicio3(x_train, y_train, x_test, y_test):
                               save_file_name="comp_2x128_Sigm_LR.pdf")
 
 
-
-
-# ESTA ES LA FUNCIÓN PARA EJECUTAR, aqui se añaden las llamadas a las funciones
-
+# main
 if __name__ == "__main__":
 
     (x_train, y_train), (x_test, y_test) = load_cifar10()
@@ -624,4 +633,4 @@ if __name__ == "__main__":
 
     #ejercicio2(x_train,y_train,x_test,y_test)
 
-    ejercicio3(x_train,y_train,x_test,y_test)
+    #ejercicio3(x_train,y_train,x_test,y_test)
